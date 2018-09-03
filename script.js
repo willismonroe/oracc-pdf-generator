@@ -48,14 +48,13 @@ async function loadText(pnum) {
     let form = or.getText("form");
     let cuneiform = or.getText("cuneiform");
     // let output = zipArrays([cuneiform, form, norm]);
-    let lines = {
-        'cuneiform': cuneiform,
-        'form': form,
-        'norm': norm
-    };
     let output = {
         'credits': credits,
-        'text': lines,
+        'text': {
+            'cuneiform': cuneiform,
+            'form': form,
+            'norm': norm
+        },
         'title': title,
         'author': author,
         'designation': designation
@@ -145,6 +144,7 @@ async function generatePDF() {
 }
 
 function getPDFOptions(selectedTexts) {
+    document.querySelector('#generate_pdf').classList.toggle('disabled');
     let pageSize = document.querySelector('.radio.checked').getAttribute('id');
     let lines = Array.from(document.querySelectorAll('#text_lines > div > div.checked')).map((el) => el.getAttribute('id'));
     PDFOptions['pageSize'] = pageSize;
