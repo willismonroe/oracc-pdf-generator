@@ -143,8 +143,7 @@ async function generatePDF() {
     doc.end();
 }
 
-function getPDFOptions(selectedTexts) {
-    document.querySelector('#generate_pdf').classList.toggle('disabled');
+function getPDFOptions() {
     let pageSize = document.querySelector('.radio.checked').getAttribute('id');
     let lines = Array.from(document.querySelectorAll('#text_lines > div > div.checked')).map((el) => el.getAttribute('id'));
     PDFOptions['pageSize'] = pageSize;
@@ -165,7 +164,11 @@ function getSelectedTexts() {
     $('.ui.accordion').accordion('toggle', 2);
     let stepThreeBody = document.querySelector('#step_three_body');
     stepThreeBody.innerHTML = `Texts selected (${selectedTexts.length}):  ${selectedTexts.join(', ')}`;
-    document.querySelector('#generate_pdf').addEventListener('click', () => getPDFOptions(selectedTexts));
+    let generateButton = document.querySelector('#generate_pdf');
+    generateButton.addEventListener('click', () => {
+        generateButton.classList.toggle('disabled');
+        getPDFOptions();
+    });
 }
 
 function buildCatalog(catalog) {
