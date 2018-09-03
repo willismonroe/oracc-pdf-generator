@@ -21,4 +21,4 @@ transliteration, normalization).
 This tool was created by Willis Monroe, and I'd be grateful for any feedback. Is there a particular corpus
 or text that breaks the PDF output? Is there an additional needed option? Could the workflow be improved?
 
-Send any issues/queries/improvements my way.
+Send any issues/queries/improvements my way, either by e-mail, or by using Github's [issue tracker](https://github.com/willismonroe/oracc-pdf-generator/issues).
