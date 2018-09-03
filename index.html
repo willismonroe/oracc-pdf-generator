@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="dist/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>ORACC PDF Generator</title>
+
+</head>
+<body style="background-color: #eee">
+
+<div class="ui raised padded text container segment">
+
+    <div class="segment">
+        <div class="ui fluid rounded image">
+            <a class="ui blue ribbon label" href="http://cdli.ucla.edu/P227533">CBS 16106</a>
+            <img src="cbs16106.jpg">
+        </div>
+    </div>
+
+    <div class="ui header">
+        ORACC PDF generator
+    </div>
+    <p class=" vertically padded">This tool will let you create PDFs based on selected texts from the ORACC corpora.
+        At the moment it's quite basic, it just loads the text data from the projects individual text JSON files.
+        Some projects have cuneiform signs included, some have normalization, some only have transliteration.
+        Right now the tool is not smart enough to tell you what's available before it generates the PDF.
+        <br>
+        <br>
+        This tool can be used to create PDFs of texts for classroom use, or personal study and reading.
+        All texts are credited according to the information in the ORACC JSON file.
+
+        The general workflow is as follows:
+    <ol>
+        <li>Select a corpus to load. This will download and unzip the corpus file from the ORACC Github
+            <a href="https://github.com/oracc/json">repository</a> in the background and populate a list
+            of texts from that archive.
+        </li>
+        <li>Select one or more texts to include in your PDF. It can be useful here to use your webbrowsers
+            find feature (usually Ctrl-F or Command-F) to search for texts.
+        </li>
+        <li>Select the options for the PDF: page size, and which lines from the text to include (cuneiform,
+            transliteration, normalization).
+        </li>
+    </ol>
+    This tool was created by Willis Monroe, and I'd be grateful for any feedback. Is there a particular corpus
+    or text that breaks the PDF output? Is there an additional needed option? Could the workflow be improved?
+    <br>
+    Send any issues/queries/improvements my way.
+    </p>
+
+    <div class="ui fluid styled accordion">
+        <div class="title active" id="step_one_title">
+            <i class="dropdown icon"></i>
+            Step 1 - select a corpus
+        </div>
+        <div class="content active" id="step_one_content">
+            <p>Select a corpus here:</p>
+            <span id="step_one_body"></span>
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Step 2 - select text(s)
+        </div>
+
+        <div class="content" id="step_two_content">
+            <p>Select any number of texts:</p>
+            <span id="step_two_body"></span>
+            <div class="ui blue button" id="submit_texts">Submit</div>
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Step 3 - format pdf
+        </div>
+        <div class="content" id="step_three_content">
+            <p>Choose PDF formatting options:</p>
+            <span id="step_three_body"> </span>
+            <div class="ui divider"></div>
+            <div class="ui form">
+                <div class="inline fields">
+
+                    <label>Select your page size:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox" id="A4">
+                            <input type="radio" name="page_size">
+                            <label>A4</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox checked" id="LETTER">
+                            <input type="radio" name="page_size" checked="checked">
+                            <label>Letter</label>
+                        </div>
+                    </div>
+                </div>
+
+                <span id="text_lines">
+                <div class="inline field">
+                        <div class="ui toggle checkbox checked" id="cuneiform">
+                            <input type="checkbox" checked="checked">
+                            <label>Cuneiform</label>
+                        </div>
+                </div>
+                    <div class="inline field">
+
+                    <div class="ui toggle checkbox checked" id="transliteration">
+                        <input type="checkbox" checked="checked">
+                        <label>Transliteration</label>
+                    </div>
+                    </div>
+                <div class="inline field">
+
+                    <div class="ui toggle checkbox checked" id="normalization">
+                        <input type="checkbox" checked="checked">
+                        <label>Normalization</label>
+                    </div>
+
+                </div>
+                </span>
+                <div class="ui divider"></div>
+
+                <div class="ui green button" id="generate_pdf">Generate PDF</div>
+
+                <a class="ui disabled blue button " id="download_button">Download PDF</a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script src="dist/jquery-3.3.1.min.js"></script>
+<script src="dist/jszip.min.js"></script>
+<!--<script src="dist/jspdf.min.js"></script>-->
+<script src="dist/pdfkit.js"></script>
+<script src="dist/blob-stream.js"></script>
+<script src="dist/semantic.min.js"></script>
+<script src="script.js" type="module"></script>
+
+<script language="javascript">
+    $('.ui.accordion')
+        .accordion()
+    ;
+    $('.ui.checkbox')
+        .checkbox()
+    ;
+    $('.ui.dropdown')
+        .dropdown()
+    ;
+</script>
+</body>
+</html>
