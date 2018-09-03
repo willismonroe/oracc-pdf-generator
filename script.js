@@ -9,7 +9,7 @@ let zip = JSZip();
 
 let corpusZip;
 
-let blackList = ['xcat'];
+let blackList = ['xcat', 'saao'];
 
 let doc = new PDFDocument({autoFirstPage: false});
 let stream = doc.pipe(blobStream());
