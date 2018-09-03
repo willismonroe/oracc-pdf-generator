@@ -38,16 +38,10 @@ async function loadText(pnum) {
     folder = Object.keys(corpusZip.files)[0];
     console.log("Loading: " + folder + 'catalogue.json');
     let catalogue = await loadJSONFromZip(corpusZip, folder + 'catalogue.json');
-    let credits = catalogue["members"][pnum]["credits"];
-    let title = catalogue["members"][pnum]["title"];
-    if (title === undefined) {
-        title = "unknown title";
-    }
-    let author = catalogue["members"][pnum]["ancient_author"];
-    if (author === undefined) {
-        author = "unknown author";
-    }
-    let designation = catalogue["members"][pnum]["designation"];
+    let credits = catalogue["members"][pnum]["credits"] || "no credits";
+    let title = catalogue["members"][pnum]["title"] || "unknown title";
+    let author = catalogue["members"][pnum]["ancient_author"] || "unknown author";
+    let designation = catalogue["members"][pnum]["designation"] || "no designation";
     console.log("Credits: " + credits);
     let or = new ORACCReader(text);
     let norm = or.getText("norm");
