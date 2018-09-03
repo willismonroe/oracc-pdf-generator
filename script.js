@@ -42,7 +42,6 @@ async function loadText(pnum) {
     let title = catalogue["members"][pnum]["title"] || "unknown title";
     let author = catalogue["members"][pnum]["ancient_author"] || "unknown author";
     let designation = catalogue["members"][pnum]["designation"] || "no designation";
-    console.log("Credits: " + credits);
     let or = new ORACCReader(text);
     let norm = or.getText("norm");
     let form = or.getText("form");
@@ -73,6 +72,7 @@ function loadBrill() {
         if (this.status === 200) {
             doc.registerFont('Brill', xhr.response);
             doc.save();
+            console.log("Loaded Brill font");
             loadCuneiform();
         }
     };
@@ -90,6 +90,7 @@ function loadCuneiform() {
         if (this.status === 200) {
             doc.registerFont('Cuneiform', xhr.response);
             doc.save();
+            console.log("Loaded Cuneiform font");
             generatePDF();
         }
     };
@@ -100,9 +101,10 @@ function loadCuneiform() {
 async function generatePDF() {
     console.log("Selected Text(s):");
     console.log(selectedTexts);
-    for (let t = 0, p = Promise.resolve(); t < selectedTexts.length; t++) {
+    for (let t = 0; t < selectedTexts.length; t++) {
         await loadText(selectedTexts[t])
             .then((output) => {
+                console.log(`Creating PDF for: ${selectedTexts[t]}`);
                 let credits = output['credits'];
                 let text = output['text'];
                 let title = output['title'];
@@ -112,8 +114,8 @@ async function generatePDF() {
                 doc.text(title + " - " + author);
                 doc.text(designation);
                 doc.moveDown();
-                for (let i = 0; i < text['cuneiform'].length; i++) {
-                    if (' ' + text['cuneiform'][i].length > 0) {
+                for (let i = 0; i < text['form'].length; i++) {
+                    if (text['form'][i].length > 0) {
                         if (PDFOptions['lines'].includes('cuneiform')) {
                             doc.font('Cuneiform')
                                 .fontSize(16)
@@ -125,7 +127,6 @@ async function generatePDF() {
                                 .text('   ' + text['form'][i].join(' '));
                         }
                         if (PDFOptions['lines'].includes("normalization")) {
-
                             doc.font("Brill")
                                 .fontSize(10)
                                 .text('   ' + text['norm'][i].join(' '));
