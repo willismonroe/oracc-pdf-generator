@@ -1,4 +1,4 @@
-# oracc-pdf-generator
+# [oracc-pdf-generator](https://willismonroe.github.io/oracc-pdf-generator/)
 This tool will let you create PDFs based on selected texts from the ORACC corpora.
 At the moment it's quite basic, it just loads the text data from the projects individual text JSON files.
 Some projects have cuneiform signs included, some have normalization, some only have transliteration.
