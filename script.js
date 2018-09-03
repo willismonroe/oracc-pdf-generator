@@ -9,6 +9,7 @@ let zip = JSZip();
 
 let corpusZip;
 
+let blackList = ['xcat'];
 
 let doc = new PDFDocument({autoFirstPage: false});
 let stream = doc.pipe(blobStream());
@@ -278,12 +279,12 @@ function fetchCorpora() {
             data.projects.forEach(corpus => {
                 let name = corpus.pathname;
                 let githubCorpus = githubCorpusList.find(item => item['name'] === name);
-                if (githubCorpus) {
+                if (githubCorpus && !(blackList.includes(githubCorpus.name))) {
                     githubCorpus.abbrev = corpus.abbrev;
                     githubCorpus.longName = corpus.name;
                     githubCorpus.blurb = corpus.blurb;
+                    ORACCCorpusList.push(githubCorpus);
                 }
-                ORACCCorpusList.push(githubCorpus);
             });
             ORACCCorpusList = ORACCCorpusList.filter(item => item !== undefined);
             ORACCCorpusList.sort((a, b) => {
