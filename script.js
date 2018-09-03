@@ -104,6 +104,7 @@ function loadCuneiform() {
 }
 
 async function generatePDF() {
+    console.log("Selected Text(s):");
     console.log(selectedTexts);
     for (let t = 0, p = Promise.resolve(); t < selectedTexts.length; t++) {
         await loadText(selectedTexts[t])
