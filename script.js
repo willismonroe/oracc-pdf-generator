@@ -6,6 +6,7 @@ import {ORACCReader} from './oracc_text_reader.js';
 let zip = JSZip();
 
 // https://css-tricks.com/reactive-uis-vanillajs-part-1-pure-functional-style/
+// https://dev.to/rishavs/making-a-single-page-app-in-ye-good-olde-js-es6-3eng
 
 let corpusZip;
 
@@ -46,6 +47,7 @@ async function loadText(pnum) {
     let norm = or.getText("norm");
     let form = or.getText("form");
     let cuneiform = or.getText("cuneiform");
+    let vocab = or.getText("sense");
     // let output = zipArrays([cuneiform, form, norm]);
     let output = {
         'credits': credits,
@@ -135,6 +137,10 @@ async function generatePDF() {
                     }
                 }
                 doc.moveDown();
+                doc.font("Brill")
+                    .fontsize(10)
+                    .text(text["sense"].join(' '));
+                doc.moveDown();
                 doc.text(credits);
                 if (t < selectedTexts.length - 1) {
                     doc.addPage();
@@ -194,6 +200,10 @@ function buildCatalog(catalog) {
 }
 
 function fetchCatalog(url) {
+    $('.ui.accordion').accordion('toggle', 1);
+    let spinner = document.querySelector('#step_two_spinner');
+    spinner.classList.toggle('active');
+
     fetch(url)
         .then(function (response) {
             if (response.status !== 200) {
@@ -213,10 +223,9 @@ function fetchCatalog(url) {
                 .then(catalog => {
                     buildCatalog(catalog);
                     document.querySelector('#submit_texts').addEventListener('click', () => getSelectedTexts())
-                })
-                .then(() => {
-                    $('.ui.accordion').accordion('toggle', 1);
                 });
+            let spinner = document.querySelector('#step_two_spinner');
+            spinner.classList.toggle('active');
         });
 }
 
@@ -228,14 +237,18 @@ function buildCorpusList(listOfCorpora) {
         el.addEventListener('click', () => {
             fetchCatalog(url)
         });
-    })
+    });
+    let spinner = document.querySelector('#step_one_spinner');
+    spinner.classList.toggle('active');
 
 }
 
 function fetchCorpora() {
+    let spinner = document.querySelector('#step_one_spinner');
     let githubCorpusList = [];
     let githubUrl = 'https://api.github.com/repos/oracc/json/contents';
     // let oraccUrl = 'http://oracc.museum.upenn.edu/projectlist.json';
+    spinner.classList.toggle('active');
     fetch(githubUrl)
         .then(response => {
             if (response.status !== 200) {
