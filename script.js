@@ -176,6 +176,7 @@ async function generatePDF() {
                                 .text(text['norm'][i].join(' '));
                         }
                         if (PDFOptions['lines'].includes("vocabulary")) {
+                            doc.moveDown();
                             for (let word of text["vocab"][i]) {
                                 doc.font("Brill")
                                     .fontSize(10)
