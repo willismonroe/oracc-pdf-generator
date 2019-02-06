@@ -54,7 +54,8 @@ async function loadText(pnum) {
         'text': {
             'cuneiform': cuneiform,
             'form': form,
-            'norm': norm
+            'norm': norm,
+            'vocab': vocab,
         },
         'title': title,
         'author': author,
@@ -139,7 +140,7 @@ async function generatePDF() {
                 doc.moveDown();
                 doc.font("Brill")
                     .fontsize(10)
-                    .text(text["sense"].join(' '));
+                    .text(text["vocab"].join(' '));
                 doc.moveDown();
                 doc.text(credits);
                 if (t < selectedTexts.length - 1) {
