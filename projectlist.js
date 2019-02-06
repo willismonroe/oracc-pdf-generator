@@ -1,4 +1,4 @@
-export default function getProjectList () {
+export default function projectList () {
 	return {
         "type": "projectlist",
         "projects": [{

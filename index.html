@@ -39,11 +39,11 @@
             of texts from that archive.
         </li>
         <li>Select one or more texts to include in your PDF. It can be useful here to use your webbrowser's
-            find feature (usually Ctrl-F or Command-F) to search for texts.  When you've selected the texts
+            find feature (usually Ctrl-F or Command-F) to search for texts. When you've selected the texts
             you want, scroll to the bottom of the list and hit "Submit".
         </li>
         <li>Select the options for the PDF: page size, and which lines from the text to include (cuneiform,
-            transliteration, normalization).  Press "Generate PDF" and wait for the download button to become
+            transliteration, normalization). Press "Generate PDF" and wait for the download button to become
             active.
         </li>
     </ol>
@@ -63,7 +63,17 @@
         </div>
         <div class="content active" id="step_one_content">
             <p>Select a corpus here:</p>
+            <!--<div class="ui search">-->
+                <!--<div class="ui icon input">-->
+                    <!--<input class="prompt" type="text" placeholder="Project name..." id="step_one_search" onkeyup="filterCorpora()">-->
+                    <!--<i class="search icon"></i>-->
+                <!--</div>-->
+            <!--</div>-->
+            <br>
             <span id="step_one_body"></span>
+            <div id="step_one_spinner" class="ui inverted dimmer">
+                <div class="ui text loader">Loading Corpora</div>
+            </div>
         </div>
         <div class="title">
             <i class="dropdown icon"></i>
@@ -74,6 +84,9 @@
             <p>Select any number of texts:</p>
             <span id="step_two_body"></span>
             <div class="ui blue button" id="submit_texts">Submit</div>
+            <!--<div id="step_two_spinner" class="ui inverted dimmer">-->
+                <!--<div class="ui text loader">Loading Texts</div>-->
+            <!--</div>-->
         </div>
         <div class="title">
             <i class="dropdown icon"></i>
@@ -120,6 +133,14 @@
                     <div class="ui toggle checkbox checked" id="normalization">
                         <input type="checkbox" checked="checked">
                         <label>Normalization</label>
+                    </div>
+
+                </div>
+                <div class="inline field">
+
+                    <div class="ui toggle checkbox checked" id="vocabulary">
+                        <input type="checkbox" checked="checked">
+                        <label>Vocabulary</label>
                     </div>
 
                 </div>

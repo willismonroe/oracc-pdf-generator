@@ -36,7 +36,7 @@ export class ORACCReader {
                 }
                 return sign;
             } else if (outputType === "sense") {
-                return lemma["f"]["cf"] + ": " + lemma["f"]["cf"];
+                return lemma["f"]["cf"] + ": " + lemma["f"]["sense"];
             } else {
                 if (outputType === 'form') {
                     return lemma['frag'];

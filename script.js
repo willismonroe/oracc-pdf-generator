@@ -32,6 +32,45 @@ function zipArrays(arrays) {
     });
 }
 
+function filterCorpora() {
+    let input, filter, list, tr, td, i, txtValue;
+    input = document.getElementById("step_one_search");
+    filter = input.value.toUpperCase();
+    list = document.querySelectorAll('div#step_one_body > div.item');
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < list.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+
+function siftVocab(vocab) {
+    let seen = [];
+    let new_vocab = [];
+    for (let line of vocab) {
+        let new_line = [];
+        for (let word of line) {
+            if (seen.includes(word)) {
+
+            } else {
+                seen.push(word);
+                new_line.push(word);
+            }
+        }
+        new_vocab.push(new_line);
+    }
+    return new_vocab;
+}
+
 async function loadText(pnum) {
     let folder = Object.keys(corpusZip.files)[0] + 'corpusjson/';
     console.log("Loading: " + folder + `${pnum}.json`);
@@ -48,6 +87,8 @@ async function loadText(pnum) {
     let form = or.getText("form");
     let cuneiform = or.getText("cuneiform");
     let vocab = or.getText("sense");
+    // Process vocab
+    vocab = siftVocab(vocab);
     // let output = zipArrays([cuneiform, form, norm]);
     let output = {
         'credits': credits,
@@ -127,20 +168,23 @@ async function generatePDF() {
                         if (PDFOptions['lines'].includes("transliteration")) {
                             doc.font("Brill")
                                 .fontSize(10)
-                                .text('   ' + text['form'][i].join(' '));
+                                .text(text['form'][i].join(' '));
                         }
                         if (PDFOptions['lines'].includes("normalization")) {
                             doc.font("Brill")
                                 .fontSize(10)
-                                .text('   ' + text['norm'][i].join(' '));
+                                .text(text['norm'][i].join(' '));
+                        }
+                        if (PDFOptions['lines'].includes("vocabulary")) {
+                            for (let word of text["vocab"][i]) {
+                                doc.font("Brill")
+                                    .fontSize(10)
+                                    .text(word);
+                            }
                         }
                         doc.moveDown();
                     }
                 }
-                doc.moveDown();
-                doc.font("Brill")
-                    .fontsize(10)
-                    .text(text["vocab"].join(' '));
                 doc.moveDown();
                 doc.text(credits);
                 if (t < selectedTexts.length - 1) {
@@ -202,8 +246,8 @@ function buildCatalog(catalog) {
 
 function fetchCatalog(url) {
     $('.ui.accordion').accordion('toggle', 1);
-    let spinner = document.querySelector('#step_two_spinner');
-    spinner.classList.toggle('active');
+    // let spinner = document.querySelector('#step_two_spinner');
+    // spinner.classList.toggle('active');
 
     fetch(url)
         .then(function (response) {
@@ -225,8 +269,8 @@ function fetchCatalog(url) {
                     buildCatalog(catalog);
                     document.querySelector('#submit_texts').addEventListener('click', () => getSelectedTexts())
                 });
-            let spinner = document.querySelector('#step_two_spinner');
-            spinner.classList.toggle('active');
+            // let spinner = document.querySelector('#step_two_spinner');
+            // spinner.classList.toggle('active');
         });
 }
 
